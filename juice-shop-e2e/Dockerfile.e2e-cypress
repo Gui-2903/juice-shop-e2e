@@ -1,0 +1,18 @@
+# cypress/base já vem com as libs de sistema (gtk, xvfb, etc.) que o Cypress
+# precisa pra rodar os navegadores headless.
+FROM cypress/base:22
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+
+RUN npx cypress verify
+
+# FIX: a imagem do Juice Shop (gcr.io/distroless/nodejs24-debian13) não tem
+# shell nem wget/curl, então não dá pra usar HEALTHCHECK nela. Em vez disso,
+# este container espera ativamente a aplicação responder em CYPRESS_baseUrl
+# antes de rodar o Cypress, usando só o Node (que já está nesta imagem).
+CMD ["sh", "-c", "until node -e \"require('http').get(process.env.CYPRESS_baseUrl || 'http://app:3000', r => process.exit(0)).on('error', () => process.exit(1))\"; do echo 'Aguardando o Juice Shop subir...'; sleep 2; done; npx cypress run"]
