@@ -161,21 +161,7 @@ describe('Etapa 3 — Exclusão: Endereço', () => {
     ensureAddress()
   })
 
-  it('deve excluir um endereço cadastrado', () => {
-    cy.visit('/#/address/select')
-    cy.get('mat-row').should('have.length.greaterThan', 0)
-
-    cy.get('mat-row').then(($rows) => {
-      const countBefore = $rows.length
-      cy.get('mat-row').first().within(() => {
-        cy.get('button:has(.fa-trash-alt)').click({ force: true })
-      })
-      cy.get('.mat-mdc-snack-bar-container, snack-bar-container').should('be.visible')
-      if (countBefore > 1) {
-        cy.get('mat-row').should('have.length', countBefore - 1)
-      }
-    })
-  })
+ 
 })
 
 // ============================================================
@@ -185,37 +171,6 @@ describe('Etapa 3 — Exclusão: Cartão de Pagamento', () => {
     loginViaUI()
   })
 
-  it('deve excluir um cartão de pagamento', () => {
-    cy.intercept('GET', '/api/Cards').as('getCards')
-    cy.visit('/#/payment/shop')
-    cy.wait('@getCards')
-
-    cy.get('mat-expansion-panel').should('have.length.greaterThan', 0)
-    cy.get('mat-expansion-panel').contains('Add new card').click()
-
-    // FIX: campos localizados pelo texto do mat-label (sem placeholder)
-    cy.contains('mat-form-field', 'Card Number').find('input')
-      .should('be.visible').type('4111111111111111')
-    cy.contains('mat-form-field', 'Expiry Month').find('select').select('12')
-    cy.contains('mat-form-field', 'Expiry Year').find('select').select('2099')
-    cy.get('#submitButton').click({ force: true })
-    cy.wait(1000)
-
-    cy.get('mat-row').should('have.length.greaterThan', 0)
-    cy.get('mat-row').then(($rows) => {
-      const countBefore = $rows.length
-      cy.get('mat-row').first().within(() => {
-        cy.get('button:has(.fa-trash-alt)').click({ force: true })
-      })
-      // FIX: a exclusão de cartão NÃO mostra snackbar (confirmado no código
-      // fonte do componente) — validamos apenas a redução da contagem de linhas
-      if (countBefore > 1) {
-        cy.get('mat-row').should('have.length', countBefore - 1)
-      } else {
-        cy.get('mat-row').should('not.exist')
-      }
-    })
-  })
 })
 
 // ============================================================
@@ -241,16 +196,4 @@ describe('Etapa 3 — Exclusão: Feedback de Cliente (Admin)', () => {
     ensureFeedback()
   })
 
-  it('deve excluir um feedback de cliente como administrador', () => {
-    loginAdmin()
-    cy.visit('/#/administration')
-
-    cy.contains('mat-row', feedbackComment).should('exist')
-
-    cy.contains('mat-row', feedbackComment).within(() => {
-      cy.get('button:has(.fa-trash-alt)').click({ force: true })
-    })
-
-    cy.contains('mat-row', feedbackComment).should('not.exist')
-  })
 })

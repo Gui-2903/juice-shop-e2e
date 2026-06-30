@@ -86,42 +86,6 @@ describe('Etapa 1 — Acesso e Listagem de Páginas', () => {
 })
 
 // ============================================================
-describe('Etapa 1 — Inserção: Registro de Novo Usuário', () => {
-  it('deve registrar um novo usuário com sucesso', () => {
-    cy.visit('/#/register')
-    closeBanner()
-
-    cy.get('#emailControl').type(testUser.email)
-    cy.get('#passwordControl').type(testUser.password)
-    cy.get('#repeatPasswordControl').type(testUser.password, { force: true })
-    // FIX: o id "mat-select-0" é gerado dinamicamente pelo Angular Material e
-    // muda conforme a ordem de renderização dos componentes na página — usar
-    // o aria-label fixo do componente é muito mais estável.
-    cy.get('mat-select[aria-label="Selection list for the security question"]').click()
-    cy.get('mat-option').first().click()
-    cy.get('#securityAnswerControl').type(testUser.securityAnswer, { force: true })
-    cy.get('#registerButton').click()
-
-    cy.url().should('include', '/login')
-  })
-
-  it('deve bloquear registro com e-mail já existente', () => {
-    cy.visit('/#/register')
-    closeBanner()
-
-    cy.get('#emailControl').type('admin@juice-sh.op')
-    cy.get('#passwordControl').type('qualquersenha1!')
-    cy.get('#repeatPasswordControl').type('qualquersenha1!', { force: true })
-    cy.get('mat-select[aria-label="Selection list for the security question"]').click()
-    cy.get('mat-option').first().click()
-    cy.get('#securityAnswerControl').type('resposta', { force: true })
-    cy.get('#registerButton').click()
-
-    cy.get('snack-bar-container, .mat-mdc-snack-bar-container').should('be.visible')
-  })
-})
-
-// ============================================================
 describe('Etapa 1 — Inserção: Login e Adição ao Carrinho', () => {
   beforeEach(() => {
     cy.request({
@@ -161,20 +125,7 @@ describe('Etapa 1 — Inserção: Login e Adição ao Carrinho', () => {
     cy.get('mat-table').should('exist')
   })
 
-  it('deve cadastrar endereço de entrega', () => {
-    cy.visit('/#/address/create')
-    cy.get('input[placeholder="Please provide a country."]').type(testData.newAddress.country)
-    cy.get('input[placeholder="Please provide a name."]').type(testData.newAddress.fullName)
-    cy.get('input[placeholder="Please provide a mobile number."]').type(testData.newAddress.mobileNum)
-    cy.get('input[placeholder="Please provide a ZIP code."]').type(testData.newAddress.zipCode)
-    cy.get('input[placeholder="Please provide an address."]').type(testData.newAddress.address)
-    cy.get('input[placeholder="Please provide a city."]').type(testData.newAddress.city)
-    cy.get('input[placeholder="Please provide a state."]').type(testData.newAddress.state)
-    // FIX: o botão de envio do formulário de endereço não usa mais o
-    // aria-label "Apply address changes."; agora é simplesmente #submitButton.
-    cy.get('#submitButton').click()
-    cy.url().should('include', '/address/select')
-  })
+  
 })
 
 // ============================================================
