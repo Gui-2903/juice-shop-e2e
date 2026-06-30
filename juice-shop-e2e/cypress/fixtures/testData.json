@@ -1,0 +1,20 @@
+{
+  "testUser": {
+    "email": "teste.e2e@juice.com",
+    "password": "Teste@123",
+    "securityAnswer": "resposta"
+  },
+  "adminUser": {
+    "email": "admin@juice-sh.op",
+    "password": "admin123"
+  },
+  "newAddress": {
+    "country": "Brasil",
+    "fullName": "Usuário Teste",
+    "mobileNum": "11999999999",
+    "zipCode": "01310-100",
+    "address": "Av. Paulista, 1000",
+    "city": "São Paulo",
+    "state": "SP"
+  }
+}

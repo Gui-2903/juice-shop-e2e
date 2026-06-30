@@ -1,0 +1,13 @@
+{
+  "name": "juice-shop-e2e",
+  "version": "1.0.0",
+  "description": "Testes E2E do OWASP Juice Shop com Cypress",
+  "scripts": {
+    "test": "cypress run --config-file cypress.config.cjs",
+    "test:open": "cypress open --config-file cypress.config.cjs",
+    "test:headed": "cypress run --headed --config-file cypress.config.cjs"
+  },
+  "devDependencies": {
+    "cypress": "^13.10.0"
+  }
+}
