@@ -61,7 +61,7 @@ http://localhost:3000
 # 🧪 Executando os testes
 
 Após iniciar o Juice Shop, abra outro terminal na pasta deste projeto.
-abra a pasta de teste e execute:
+abra a pasta de teste(juice-shop-e2e/) e execute:
 
 ## Instale as dependências
 
